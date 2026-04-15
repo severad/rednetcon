@@ -63,7 +63,7 @@ body {
 
 .slide-container > * { position: relative; z-index: 1; }
 
-/* 3. TYPOGRAFIE (Zmenšeno o cca 10 %) */
+/* 3. TYPOGRAFIE */
 h1, h2, h3 {
   color: #f8fafc;
   font-weight: 700;
@@ -139,15 +139,49 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
     box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
 }
 
-/* Mřížka (Grid) */
-.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; width: 100%; }
-.grid-item { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: center; text-align: center; }
-.grid-item h3 { font-size: 25px; color: #d946ef; margin-bottom: 10px; }
-.grid-icon { font-size: 44px; color: #a78bfa; margin-bottom: 15px; }
-
 /* Dlaždice */
-.tile { flex: 1; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.tile { flex: 1; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
 .tile .icon { width: 80px; height: 80px; background: rgba(167, 139, 250, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 32px; color: #a78bfa; }
+
+/* MAPA (Symptomy současnosti) */
+.map-tile {
+    padding: 20px 10px; 
+    flex: 1; 
+    opacity: 0.3; 
+    transform: scale(0.95); 
+    transition: all 0.4s ease; 
+    filter: grayscale(80%); 
+    border: 1px solid transparent;
+    text-align: center;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.map-tile.active {
+    opacity: 1; 
+    transform: scale(1.05); 
+    filter: grayscale(0%); 
+    border: 1px solid #d946ef; 
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.2); 
+    background: rgba(255,255,255,0.1);
+}
+.map-tile .icon { width: 50px; height: 50px; font-size: 24px; margin-bottom: 15px; color: #a78bfa; display: flex; justify-content: center; align-items: center; }
+.map-tile h3 { font-size: 18px; line-height: 1.3; margin: 0; color: #e2e8f0; }
+.map-plus { font-size: 30px; color: #d946ef; font-weight: bold; opacity: 0.5; }
+
+/* Speciální rozložení pro Spectrum (Kyvadlo extrémů) */
+.spectrum-layout { display: flex; gap: 30px; align-items: stretch; width: 100%; height: 100%; }
+.spectrum-box { flex: 1; padding: 40px; border-radius: 16px; display: flex; flex-direction: column; }
+.spectrum-box h3 { margin-bottom: 20px; text-transform: uppercase; font-size: 24px; letter-spacing: 2px; }
+.spectrum-box.left { background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(153, 27, 27, 0.2)); border: 1px solid rgba(239, 68, 68, 0.3); }
+.spectrum-box.right { background: linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(161, 98, 7, 0.2)); border: 1px solid rgba(234, 179, 8, 0.3); }
+.spectrum-box ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+.spectrum-box ul li { margin-bottom: 15px; padding-left: 25px; position: relative; font-size: 20px; }
+.spectrum-box.left ul li::before { content: '×'; color: #ef4444; position: absolute; left: 0; font-weight: bold; }
+.spectrum-box.right ul li::before { content: '×'; color: #eab308; position: absolute; left: 0; font-weight: bold; }
+
+.center-philosophical { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 16px; border: 1px solid rgba(167, 139, 250, 0.4); margin-top: 30px; text-align: center; }
 
 /* Citáty */
 .quote-layout blockquote { font-size: 26px; font-family: 'Space Grotesk'; position: relative; margin: 0; padding: 0 60px; line-height: 1.4; border-left: none; background: none; }
@@ -172,7 +206,7 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
 <body>
 
     <div class="progress-bar" id="progressBar"></div>
-    <div class="slide-counter" id="slideCounter">1 / 13</div>
+    <div class="slide-counter" id="slideCounter">1 / 35</div>
     <div class="controls">
         <button class="nav-btn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
         <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
@@ -186,69 +220,11 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
         </div>
     </div>
 
-    <!-- 2. ÚVOD -->
+    <!-- 2. ÚZKOST STATS -->
     <div class="slide-container">
+        <h2 class="slide-title">Temné statistiky I: Duševní nepohoda</h2>
         <div class="content-area">
-            <div class="two-column">
-                <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-                    <h2 style="font-size: 54px; color: #a78bfa; margin-bottom: 20px;">Úvod</h2>
-                    <hr style="border: 2px solid #d946ef; width: 100px; margin: 0 0 30px 0;">
-                    <p style="font-size: 25px; color: #94a3b8;">Mozaika myšlenek.</p>
-                </div>
-                <div>
-                    <ul class="styled-list">
-                        <li>Absolutní pravda?</li>
-                        <li>Podněty k zamyšlení</li>
-                        <li>Dystopie ale snad ne apokalypsa</li>
-                        <li>Situace, konvence, jevy, které možná neznáte</li>
-                        <li style="color: #fff; font-weight: bold;">Debata</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. HANSEN -->
-    <div class="slide-container">
-        <h2 class="slide-title">Pravěký lovec v digitální džungli</h2>
-        <div class="content-area">
-            <div style="text-align: center; max-width: 900px; margin: 0 auto;">
-                <h3 style="font-size: 32px; margin-bottom: 40px;">Anders Hansen: Instamozek</h3>
-                <ul class="styled-list" style="text-align: left; display: inline-block; font-size: 25px;">
-                    <li style="margin-bottom: 30px;">Hledání sociálních vazeb.</li>
-                    <li style="margin-bottom: 30px;">Nekonečná zeď.</li>
-                    <li><span style="color: #d946ef; font-weight: bold;">Attention span</span> & knihy.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. ROVNICE NESPOKOJENOSTI -->
-    <div class="slide-container">
-        <h2 class="slide-title">Rovnice nespokojenosti</h2>
-        <div class="content-area">
-            <div class="grid-2x2">
-                <div class="grid-item">
-                    <div class="grid-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                    <h3>(de)Motivace</h3>
-                </div>
-                <div class="grid-item">
-                    <div class="grid-icon"><i class="fa-solid fa-skull-crossbones"></i></div>
-                    <h3>Toxicita</h3>
-                </div>
-                <div class="grid-item">
-                    <div class="grid-icon"><i class="fa-solid fa-face-meh-blank"></i></div>
-                    <h3>Dopaminová otupělost</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. ÚZKOST STATS -->
-    <div class="slide-container">
-        <h2 class="slide-title">Temné statistiky I: Úzkost</h2>
-        <div class="content-area">
-            <p style="margin-bottom: 40px; text-align: center;">Úzkost a deprese u mladistvých</p>
+            <p style="margin-bottom: 60px; text-align: center;">Duševní nepohoda u mladistvých</p>
             <div class="chart-container">
                 <div class="bar">
                     <div class="label">Rok 1990</div>
@@ -262,18 +238,222 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
                     <div class="label">Rok 2021</div>
                     <div class="bar-inner"><div class="bar-fill" style="width: 83%; background: linear-gradient(90deg, #f87171, #dc2626);">41.5%</div></div>
                 </div>
+                <div class="bar">
+                    <div class="label">Rok 2024</div>
+                    <div class="bar-inner"><div class="bar-fill" style="width: 80%; background: linear-gradient(90deg, #ef4444, #b91c1c); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);">40.0%</div></div>
+                </div>
             </div>
-            <p class="chart-summary" style="margin-top: 30px; color: #fca5a5; text-align: center;">Skokový nárůst koresponduje s masivním rozšířením smartphonů.</p>
+            <p class="chart-summary" style="margin-top: 30px; color: #fca5a5; text-align: center;">
+                Skokový nárůst koresponduje s masivním rozšířením smartphonů.<br>
+                <span style="font-size: 16px; color: #94a3b8; display: block; margin-top: 10px;">Zdroj (2024): Národní ústav duševního zdraví (NUDZ), monitoring na základních školách.</span>
+            </p>
         </div>
     </div>
 
-    <!-- 6. HODNOTY -->
+    <!-- 3. ÚVOD -->
+    <div class="slide-container">
+        <div class="content-area">
+            <div class="two-column">
+                <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <h2 style="font-size: 54px; color: #a78bfa; margin-bottom: 20px;">Úvod</h2>
+                    <hr style="border: 2px solid #d946ef; width: 100px; margin: 0 0 30px 0;">
+                </div>
+                <div>
+                    <ul class="styled-list">
+                        <li><strong>Absolutní pravda?</strong><br><span style="font-size: 18px; color: #94a3b8; font-weight: normal;">Relativizace objektivity v post-faktické době.</span></li>
+                        <li><strong>Rovnice nespokojenosti - Dystopie, ale snad ne apokalypsa.</strong><br><span style="font-size: 18px; color: #94a3b8; font-weight: normal;">Ne všichni.</span></li>
+                        <li>Situace, konvence, jevy, které možná neznáte.</li>
+                        <li style="color: #fff; font-weight: bold;">Debata</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. MAPA 1: ZTRACENI V PRAVDĚ -->
+    <!-- ========================================== -->
+    <div class="slide-container">
+        <h2 class="slide-title">Symptomy současnosti</h2>
+        <div class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; width: 100%;">
+                <div class="map-tile active">
+                    <div class="icon"><i class="fa-solid fa-compass"></i></div>
+                    <h3>Ztraceni<br>v pravdě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3>Sociální<br>sítě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3>Finanční<br>demotivace</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-face-meh-blank"></i></div>
+                    <h3>Dopaminová<br>otupělost</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. GETTIER -->
+    <div class="slide-container">
+        <h2 class="slide-title">Co to znamená „vědět“?</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #d946ef; margin-bottom: 20px;">Relativizace objektivity</h3>
+                    <p>Žijeme v době, kdy se stírá rozdíl mezi tím se <strong>domnívat</strong>, být o něčem <strong>přesvědčen</strong> a skutečně to <strong>vědět</strong>.</p>
+                    <ul class="styled-list" style="margin-top: 20px;">
+                        <li>Informační chaos (očkování, přistání na Měsíci, plochozemci).</li>
+                        <li>Rozpad společenské shody: „Moje pravda vs. Tvoje pravda“.</li>
+                        <li>Někdo musí stanovit mantinely poznání.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 16px; border-top: 4px solid #a78bfa;">
+                    <h3 style="color: #a78bfa; font-size: 28px; margin-bottom: 20px;">Gettierův problém: Kráva na kopci</h3>
+                    <ol style="color: #cbd5e1; font-size: 20px; line-height: 1.6; padding-left: 20px; margin-bottom: 0;">
+                        <li style="margin-bottom: 15px;">Vidím krávu ➔ Je tam kráva. <br><span style="color: #4ade80; font-size: 18px;">(Pravdivé poznání)</span></li>
+                        <li style="margin-bottom: 15px;">Vidím býka (myslím, že je to kráva) ➔ Je tam býk. <br><span style="color: #f87171; font-size: 18px;">(Omyl / Nepravda)</span></li>
+                        <li><strong>Vidím býka</strong> (jsem přesvědčen, že je to kráva). Vyřknu: „Na kopci je kráva.“ <br>Skutečná kráva je ale <strong>schovaná za kopcem</strong> a já ji nevidím.<br><span style="color: #fbbf24; font-size: 18px; display: inline-block; margin-top: 10px;">➔ Moje věta je sice pravdivá. Ale je to skutečné poznání, když vychází z omylu?</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. LOCKE -->
+    <div class="slide-container">
+        <h2 class="slide-title">Hranice našeho poznání</h2>
+        <div class="content-area">
+            <div class="quote-layout" style="text-align: center;">
+                <blockquote style="font-size: 32px; line-height: 1.5; margin: 0 auto; max-width: 1000px;">
+                    „Je velmi užitečné pro námořníka, zná-li délku vlastního provazu, i když s ním nemůže proměřit všechny hloubky oceánu. Ví, že postačí, aby byl provaz dost dlouhý na to, aby dosáhl dna na těch místech, kde je to nezbytné k řízení plavby a aby ho varoval před najetím na mělčinu...“
+                </blockquote>
+                <cite style="font-size: 28px; margin-top: 40px;">— John Locke</cite>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. KYVADLO EXTRÉMŮ (ZTRÁTA KONTEXTU PŘESUNUTA K ZTRACENI V PRAVDE) -->
+    <div class="slide-container">
+        <h2 class="slide-title">Ztráta kontextu: Kyvadlo extrémů</h2>
+        <div class="content-area">
+            <p style="text-align: center; margin-bottom: 30px;">Algoritmy z nás dělají scrollovací konzumenty. Politika se smrskla na povrchní nálepkování bez znalosti historie. Ženeme se do ideologických extrémů.</p>
+            
+            <div class="spectrum-layout">
+                <div class="spectrum-box left">
+                    <h3 style="color: #ef4444;"><i class="fa-solid fa-users" style="margin-right: 10px;"></i> Extrémní kolektivismus</h3>
+                    <ul>
+                        <li>Potlačení individuality a svobody.</li>
+                        <li>Pracovní tábory a diktatura.</li>
+                        <li>Plošné přerozdělení bohatství bez ohledu na zásluhy.</li>
+                    </ul>
+                </div>
+                
+                <div class="spectrum-box right">
+                    <h3 style="color: #eab308;"><i class="fa-solid fa-user-ninja" style="margin-right: 10px;"></i> Extrémní individualismus</h3>
+                    <ul>
+                        <li>Exploatace (kácení pralesů pro zisk).</li>
+                        <li>Toxický "hustle".</li>
+                        <li>Raskolnikovův syndrom: Já jsem víc než morálka.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="center-philosophical">
+                <h3 style="color: #a78bfa; margin-bottom: 10px;">Lék na duševní prázdnotu</h3>
+                <p style="font-size: 24px; font-style: italic; margin: 0;">"Bohatství a štěstí nevzniká z peněz, nýbrž z péče o vlastní duši a z poznání světa."</p>
+                <p style="text-align: right; color: #d946ef; font-weight: bold; margin-top: 10px; margin-bottom: 0;">— Sókratés</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 8. MAPA 2: SOCIÁLNÍ SÍTĚ -->
+    <!-- ========================================== -->
+    <div class="slide-container">
+        <h2 class="slide-title">Symptomy současnosti</h2>
+        <div class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; width: 100%;">
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-compass"></i></div>
+                    <h3>Ztraceni<br>v pravdě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile active">
+                    <div class="icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3>Sociální<br>sítě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3>Finanční<br>demotivace</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-face-meh-blank"></i></div>
+                    <h3>Dopaminová<br>otupělost</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. HANSEN -->
+    <div class="slide-container">
+        <h2 class="slide-title">Pravěký lovec v digitální džungli</h2>
+        <div class="content-area">
+            <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <ul class="styled-list" style="text-align: left; display: inline-block; font-size: 25px;">
+                    <li style="margin-bottom: 30px;">Hledání sociálních vazeb.</li>
+                    <li style="margin-bottom: 30px;">Nekonečná zeď.</li>
+                    <li style="margin-bottom: 30px;"><span style="color: #d946ef; font-weight: bold;">Attention span</span> & knihy.</li>
+                    <li>Dobře placení vývojáři.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 10. MAPA 3: FINANČNÍ DEMOTIVACE -->
+    <!-- ========================================== -->
+    <div class="slide-container">
+        <h2 class="slide-title">Symptomy současnosti</h2>
+        <div class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; width: 100%;">
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-compass"></i></div>
+                    <h3>Ztraceni<br>v pravdě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3>Sociální<br>sítě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile active">
+                    <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3>Finanční<br>demotivace</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-face-meh-blank"></i></div>
+                    <h3>Dopaminová<br>otupělost</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. HODNOTY -->
     <div class="slide-container">
         <h2 class="slide-title">Hledání stimulace & Hodnoty</h2>
         <div class="content-area">
             <div style="background: rgba(255,255,255,0.05); padding: 50px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); max-width: 800px; margin: 0 auto;">
                 <h3 style="color: #d946ef; font-size: 36px; margin-bottom: 30px;">(De)motivace</h3>
-                <p style="font-size: 25px; font-weight: bold; margin-bottom: 20px;">Vidina snadných peněz:</p>
                 <ul class="styled-list" style="font-size: 25px;">
                     <li>OnlyFans</li>
                     <li>Krypto</li>
@@ -284,61 +464,222 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
         </div>
     </div>
 
-    <!-- 7. STREAMER IMAGE -->
+    <!-- 12. STREAMER IMAGE -->
     <div class="slide-container full-image-slide">
         <div class="full-image-container">
-            <img src="streamer1.png" alt="Streamer">
-        
+            <img src="https://ctrlv.cz/shots/2026/02/14/ArLh.png" alt="Streamer">
+            <div class="image-caption">Realita dopaminové tolerance: Multitasking na automatech</div>
         </div>
     </div>
 
-    <!-- 8. DALŠÍ UKÁZKA -->
+    <!-- 13. DALŠÍ UKÁZKA -->
     <div class="slide-container full-image-slide">
         <div class="full-image-container">
-            <img src="streamer2.png" alt="Další ukázka">
+            <img src="https://ctrlv.cz/shots/2026/02/15/eV5q.png" alt="Další ukázka">
         </div>
     </div>
 
-    <!-- 9. POZORNOST -->
+    <!-- 14. OBRÁZEK 001 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="001.jfif" alt="Ukázka 1">
+        </div>
+    </div>
+
+    <!-- 15. OBRÁZEK 002 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="002.jfif" alt="Ukázka 2">
+        </div>
+    </div>
+
+    <!-- 16. OBRÁZEK 003 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="003.jfif" alt="Ukázka 3">
+        </div>
+    </div>
+
+    <!-- 17. OBRÁZEK 004 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="004.jfif" alt="Ukázka 4">
+        </div>
+    </div>
+
+    <!-- 18. OBRÁZEK 005 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="005.jfif" alt="Ukázka 5">
+        </div>
+    </div>
+
+    <!-- 19. OBRÁZEK 006 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="006.jfif" alt="Ukázka 6">
+        </div>
+    </div>
+
+    <!-- 20. OBRÁZEK 007 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="007.jfif" alt="Ukázka 7">
+        </div>
+    </div>
+
+    <!-- 21. OBRÁZEK 008 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="008.jfif" alt="Ukázka 8">
+        </div>
+    </div>
+
+    <!-- 22. OBRÁZEK 009 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="009.jfif" alt="Ukázka 9">
+        </div>
+    </div>
+
+    <!-- 23. OBRÁZEK 010 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="010.jfif" alt="Ukázka 10">
+        </div>
+    </div>
+
+    <!-- 24. OBRÁZEK 011 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="011.jfif" alt="Ukázka 11">
+        </div>
+    </div>
+
+    <!-- 25. OBRÁZEK 012 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="012.jfif" alt="Ukázka 12">
+        </div>
+    </div>
+
+    <!-- 26. OBRÁZEK 013 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="013.jfif" alt="Ukázka 13">
+        </div>
+    </div>
+
+    <!-- 27. OBRÁZEK 014 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="014.jfif" alt="Ukázka 14">
+        </div>
+    </div>
+
+    <!-- 28. OBRÁZEK 015 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="015.jfif" alt="Ukázka 15">
+        </div>
+    </div>
+
+    <!-- 29. OBRÁZEK 016 -->
+    <div class="slide-container full-image-slide">
+        <div class="full-image-container">
+            <img src="016.jfif" alt="Ukázka 16">
+        </div>
+    </div>
+
+    <!-- 30. KRIZE PRÁCE -->
     <div class="slide-container">
-        <h2 class="slide-title">Temné statistiky II: Pozornost</h2>
+        <h2 class="slide-title">Krize práce a strategie přežití</h2>
         <div class="content-area">
-            <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1); width: 80%; margin-left: auto; margin-right: auto;">
-                <h3 style="color: #a78bfa; margin-bottom: 20px; font-size: 32px;">Rodiče vs. Děti</h3>
-                <p style="font-size: 24px;">Rodiče v západní Evropě (2015): <strong>34 min</strong> denně v týdnu, <strong>97 min</strong> o víkendu.</p>
-                <div style="height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
-                <p style="font-size: 24px; color: #fca5a5;">Dnes <strong>14 minut</strong> "tváří v tvář"</p>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #d946ef; font-size: 32px; margin-bottom: 20px;">Konec iluzí</h3>
+                    <p>Mladá generace (Gen Z) není líná, ale odmítá <strong>fetišizaci práce</strong>. Buduje strategii "unaveného pragmatismu" ve světě, kde vysoká škola už nezaručí naplňující kariéru.</p>
+                    <p>Útěk od práce je tak často spíše hledáním ztracené <strong>smysluplnosti</strong> a autenticity.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+                    <ul class="styled-list">
+                        <li><strong>Bullshit Jobs (D. Graeber):</strong> Nárůst pracovních pozic, jejichž absenci by společnost vůbec nezaznamenala.</li>
+                        <li><strong>Byrokratizace (H. Rosa):</strong> Lidé se stávají pouhými vykonavateli pokynů. Nástup tabulek a směrnic zalehává samotnou podstatu práce.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 10. DOPAD NA MOZEK -->
+    <!-- 31. ODCIZENÍ -->
     <div class="slide-container">
-        <h2 class="slide-title">Dopad technologií na dětský mozek</h2>
+        <h2 class="slide-title">Odcizení člověka</h2>
         <div class="content-area">
-            <div style="display: flex; gap: 30px; width: 100%;">
-                <div class="tile">
-                    <div class="icon"><i class="fa-solid fa-brain"></i></div>
-                    <h3>Kritické myšlení</h3>
-                    <p>Děti trávící >2h u obrazovky mají nižší skóre v testech jazyka a myšlení.</p>
+            <div style="display: flex; gap: 40px; width: 100%;">
+                
+                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; border-top: 4px solid #a78bfa;">
+                    <h3 style="color: #a78bfa; font-size: 32px; margin-bottom: 20px;"><i class="fa-solid fa-gears" style="margin-right: 15px;"></i>Karel Marx</h3>
+                    <p style="font-weight: bold; margin-bottom: 15px;">Ztráta vztahu k výsledku</p>
+                    <p style="font-size: 20px;">Dělník (dnes moderní zaměstnanec) se stává pouhým kolečkem v mechanismu. Tím, že nevidí a nevlastní finální výsledek své práce, dochází k odcizení – od produktu, od procesu tvorby i od sebe sama.</p>
                 </div>
-                <div class="tile">
-                    <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <h3>Rizikové chování</h3>
-                    <p>Čím více času děti tráví u obrazovek (9-11 let), <br> tím vyšší je pravděpodobnost k sebepoškozování a sebevražedným sklonům <br> (11-15 let).</p>
+
+                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; border-top: 4px solid #d946ef;">
+                    <h3 style="color: #d946ef; font-size: 32px; margin-bottom: 20px;"><i class="fa-solid fa-book-open" style="margin-right: 15px;"></i>Erich Fromm</h3>
+                    <p style="font-weight: bold; margin-bottom: 15px;">Mít, či být?</p>
+                    <p style="font-size: 20px;">Západní společnost přešla do modu <span class="highlight">„mít“</span> (hromadění, konzum, status) na úkor <span class="highlight">„být“</span> (autenticita, smysluplnost). Práce se stává jen nástrojem konzumu, což vede k vnitřní prázdnotě.</p>
                 </div>
-                <div class="tile">
-                    <div class="icon"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h3>Psaní rukou</h3>
-                    <p>Zapisováním na notebooku si studenti pamatují méně než při psaní tužkou.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 32. MAPA 4: DOPAMINOVÁ OTUPĚLOST -->
+    <!-- ========================================== -->
+    <div class="slide-container">
+        <h2 class="slide-title">Symptomy současnosti</h2>
+        <div class="content-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; width: 100%;">
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-compass"></i></div>
+                    <h3>Ztraceni<br>v pravdě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3>Sociální<br>sítě</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile">
+                    <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3>Finanční<br>demotivace</h3>
+                </div>
+                <div class="map-plus">+</div>
+                <div class="map-tile active">
+                    <div class="icon"><i class="fa-solid fa-face-meh-blank"></i></div>
+                    <h3>Dopaminová<br>otupělost</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 11. BRADBURY -->
+    <!-- 33. DOPAMINOVÁ OTUPĚLOST (Seznam) -->
     <div class="slide-container">
-        <h2 class="slide-title">Vše se zjednodušuje</h2>
+        <h2 class="slide-title">Dopaminová otupělost</h2>
+        <div class="content-area">
+            <div style="background: rgba(255,255,255,0.05); padding: 60px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); max-width: 900px; margin: 0 auto; width: 100%;">
+                <ul class="styled-list" style="font-size: 28px; margin: 0;">
+                    <li style="margin-bottom: 35px;">Přehlcenost</li>
+                    <li style="margin-bottom: 35px;">Sledování cizích životů ➔ opomíjení vlastního</li>
+                    <li style="margin-bottom: 0;">Příliš velký výběr = paralýza</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 34. BRADBURY -->
+    <div class="slide-container">
+        <h2 class="slide-title">Proroctví (Ray Bradbury)</h2>
         <div class="content-area">
             <div class="quote-layout">
                 <blockquote style="font-size: 26px;">
@@ -352,39 +693,21 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
         </div>
     </div>
 
-    <!-- 12. DOSTOJEVSKIJ -->
+    <!-- 35. DOSTOJEVSKIJ -->
     <div class="slide-container">
         <h2 class="slide-title">Paradox blahobytu</h2>
         <div class="content-area">
             <div class="quote-layout">
-                <blockquote style="font-size: 26px;">
+                <blockquote style="font-size: 26px; margin-bottom: 20px;">
                     Zahrňte ho vším pozemským blahem, zaplavte ho celého až po krk štěstím... dejte mu takový hospodářský blahobyt, aby nemusel nic dělat než spát a chroupat cukroví...
                     <span class="highlight">a i za těchto okolností vám ten člověk z pouhé nevděčnosti, pro pouhý výsměch, provede lumpárnu. Pohrdne cukrovím a schválně se bude dožadovat nějaké škodlivé hlouposti...</span>
                     aby do vší té pozitivnosti a moudrostí přimísil zkázonosný živel své fantazie.
                 </blockquote>
-                <cite>— F. Dostojevskij: Zápisky z podzemí</cite>
-            </div>
-        </div>
-    </div>
-
-    <!-- 13. ZÁVĚR -->
-    <div class="slide-container">
-        <h2 class="slide-title">Cesta ven & Závěr</h2>
-        <div class="content-area">
-            <div style="display: flex; gap: 30px; width: 100%;">
-                <div class="tile" style="flex: 1.5;">
-                     <div class="icon"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <h3>John Stuart Mill</h3>
-                    <p style="font-style: italic;">"Naučil jsem se hledat štěstí tím, že vědomě omezuji své touhy, místo toho, abych se je snažil uspokojovat."</p>
-                </div>
-                <div class="tile">
-                    <div class="icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                    <h3>Manuál přežití</h3>
-                    <ul style="text-align: left; padding-left: 20px;">
-                        <li>Omezit používání mobilu</li>
-                        <li>Ložnice bez techniky</li>
-                        <li>Nuda je počátek kreativity</li>
-                    </ul>
+                <cite style="margin-top: 0;">— F. Dostojevskij: Zápisky z podzemí</cite>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; border-left: 4px solid #d946ef; margin-top: 30px; text-align: left;">
+                    <p style="color: #d946ef; font-weight: bold; font-size: 16px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Překlad pro rok 2026:</p>
+                    <p style="font-size: 22px; font-style: italic; margin: 0; color: #f8fafc;">„Zajistěte člověku absolutní peak existenci. Neomezený budget, ať může jen chillovat a nic nehrotit. A on? Vykašle se na blahobyt a schválně začne trollit a být toxic, jen proto aby do vší té pozitivnosti a moudrostí přimísil zkázonosný živel své fantazie.“</p>
                 </div>
             </div>
         </div>
@@ -438,3 +761,4 @@ ul.styled-list li::before { content: '>'; color: #d946ef; position: absolute; le
     </script>
 </body>
 </html>
+```
